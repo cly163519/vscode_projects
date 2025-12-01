@@ -1,0 +1,14 @@
+C:\dev\StudentAndCourse\bin\Debug\net10.0\StudentAndCourse.exe
+C:\dev\StudentAndCourse\bin\Debug\net10.0\StudentAndCourse.deps.json
+C:\dev\StudentAndCourse\bin\Debug\net10.0\StudentAndCourse.runtimeconfig.json
+C:\dev\StudentAndCourse\bin\Debug\net10.0\StudentAndCourse.dll
+C:\dev\StudentAndCourse\bin\Debug\net10.0\StudentAndCourse.pdb
+C:\dev\StudentAndCourse\obj\Debug\net10.0\StudentAndCourse.GeneratedMSBuildEditorConfig.editorconfig
+C:\dev\StudentAndCourse\obj\Debug\net10.0\StudentAndCourse.AssemblyInfoInputs.cache
+C:\dev\StudentAndCourse\obj\Debug\net10.0\StudentAndCourse.AssemblyInfo.cs
+C:\dev\StudentAndCourse\obj\Debug\net10.0\StudentAndCourse.csproj.CoreCompileInputs.cache
+C:\dev\StudentAndCourse\obj\Debug\net10.0\StudentAndCourse.dll
+C:\dev\StudentAndCourse\obj\Debug\net10.0\refint\StudentAndCourse.dll
+C:\dev\StudentAndCourse\obj\Debug\net10.0\StudentAndCourse.pdb
+C:\dev\StudentAndCourse\obj\Debug\net10.0\StudentAndCourse.genruntimeconfig.cache
+C:\dev\StudentAndCourse\obj\Debug\net10.0\ref\StudentAndCourse.dll
