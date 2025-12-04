@@ -1,47 +1,62 @@
-using System; 
-using System.Collections.Generic;      
+using System;
+using System.Collections.Generic;
 
-class Student
+public class Student
 {
-    public const int MAX_COURSES = 5;
+    // ========== Static variables and constants ==========
+    private static int nextId = 1;           // Static variable shared by all students, used to generate unique ID
+    private const int MAX_COURSES = 5;       // Maximum 5 courses allowed
 
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public double PricePerPoint { get; set; }
-    public IList<Course> courses { get; set; }
-    public IList<String> grades { get; set; }
+    // ========== Properties ==========
+    public int Id { get; private set; }                      // Student ID
+    public string Name { get; private set; }                 // Student name
+    public double PricePerPoint { get; private set; }        // Price per point
+    public IList<Course> Courses { get; private set; }       // List of courses this student enrolled
+    public IList<string> Grades { get; private set; }        // Corresponding grades for each course
 
-    public Student(int id, string name, double pricePerPoint)
+    // ========== Constructor ==========
+    public Student(string name, double pricePerPoint)
     {
-        Id = id;
+        Id = nextId;           // Assign current nextId to this student
+        nextId = nextId + 1;   // Increment nextId for next student
         Name = name;
         PricePerPoint = pricePerPoint;
-        courses = new List<Course>();
-        grades = new List<String>();
+        Courses = new List<Course>();    // Create empty course list
+        Grades = new List<string>();     // Create empty grades list
     }
+
+    // ========== Enrol course method ==========
     public bool EnrolCourse(Course course)
     {
-        if(!courses.Contains(course))
+        // Check 1: Already enrolled in maximum courses?
+        if (Courses.Count >= MAX_COURSES)
         {
-            courses.Add(course);
-        }
-
-        if(courses.Count > MAX_COURSES)
-        {
+            Console.WriteLine(Name + " has already enrolled in 5 courses!");
             return false;
         }
 
-        grades.Add("N/A");
+        // Check 2: Already enrolled in this course?
+        if (Courses.Contains(course))
+        {
+            Console.WriteLine(Name + " has already enrolled in this course!");
+            return false;
+        }
+
+        // Passed all checks, can enrol
+        Courses.Add(course);    // Add course to student's course list
+        Grades.Add("N/A");      // Add placeholder grade
         return true;
     }
 
+    // ========== Grade related methods ==========
     public void AssignGrade(Course course, string grade)
     {
-        for(int i = 0; i < courses.Count; i++)
+        // Find the course in the list and set the grade
+        for (int i = 0; i < Courses.Count; i++)
         {
-            if(courses[i] == course)
+            if (Courses[i] == course)
             {
-                grades[i] = grade;
+                Grades[i] = grade;  // Set grade at the same position
                 return;
             }
         }
@@ -49,39 +64,39 @@ class Student
 
     public string GetGrade(Course course)
     {
-        for(int i = 0; i < courses.Count; i++)//什么时候用EnrolledCourses?
+        // Find the course and return its grade
+        for (int i = 0; i < Courses.Count; i++)
         {
-            if(courses[i] == course)
+            if (Courses[i] == course)
             {
-                return grades[i];
+                return Grades[i];
             }
         }
-        return "N/A";
+        return "N/A";  // Return N/A if not found
     }
 
     public double GetGPA()
     {
-        if(grades.Count == 0)
+        if (Grades.Count == 0)
         {
-            return 0.0;
+            return 0.0;  // Return 0 if no grades
         }
+
         double total = 0;
-        foreach(var grade in grades)//什么时候用大写Grades?
+        foreach (var grade in Grades)
         {
-            total += GradeToGPA(grade);
+            total = total + GradeToNumber(grade);
         }
-        return total / grades.Count;
+        return total / Grades.Count;  // Average
     }
 
-    public double GradeToGPA(string grade)
+    // Convert letter grade to number
+    private double GradeToNumber(string grade)
     {
-        if(grade =="A") return 4.0;
-        else if(grade =="B") return 3.0;
-        else if(grade =="C") return 2.0;
-        else if(grade =="D") return 1.0;
-        else return 0.0;
+        if (grade == "A") return 4.0;
+        if (grade == "B") return 3.0;
+        if (grade == "C") return 2.0;
+        if (grade == "D") return 1.0;
+        return 0.0;
     }
-
-
-
 }

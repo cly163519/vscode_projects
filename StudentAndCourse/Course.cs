@@ -1,18 +1,20 @@
 using System;
 using System.Collections.Generic;
-using StudentAndCourse;
+
 public class Course
 {
-    public string Name {get; set; }
-    public string Id { get; set; }
-    public int Points { get; set; }
-    public double RoomCost { get; set; }
-    
-    internal IList<Student> Students { get; set; } //Internal干什么用的?
-    public IList<Lecturer> lecturers { get; set; }
+    // ========== Constants ==========
+    private const int MAX_STUDENTS = 30;  // Maximum 30 students allowed
 
-    private const int MAX_STUDENTS = 30;
+    // ========== Properties ==========
+    public string Name { get; private set; }                    // Course name
+    public string Id { get; private set; }                      // Course code
+    public int Points { get; private set; }                     // Points/credits
+    public double RoomCost { get; private set; }                // Room cost
+    public IList<Student> Students { get; private set; }        // List of enrolled students
+    public IList<Lecturer> Lecturers { get; private set; }      // List of lecturers teaching this course
 
+    // ========== Constructor ==========
     public Course(string name, string id, int points, double roomCost)
     {
         Name = name;
@@ -20,52 +22,72 @@ public class Course
         Points = points;
         RoomCost = roomCost;
         Students = new List<Student>();
-        lecturers = new List<Lecturer>();
+        Lecturers = new List<Lecturer>();
     }
-    internal bool EnrolStudent(Student student)
+
+    // ========== Student related methods ==========
+    public bool EnrolStudent(Student student)
     {
+        // Check 1: Course full?
         if (Students.Count >= MAX_STUDENTS)
         {
+            Console.WriteLine(Name + " is full!");
             return false;
         }
+
+        // Check 2: Student already enrolled?
         if (Students.Contains(student))
         {
             return false;
         }
 
-        Students.Add(student);
-        student.EnrolCourse(this);
+        // Two-way association: course records student, student records course
+        Students.Add(student);           // Add student to course
+        student.EnrolCourse(this);       // Add course to student, "this" is current Course
         return true;
     }
 
-    internal void AssignLecturer(Lecturer lecturer)
+    // ========== Lecturer related methods ==========
+    public void AssignLecturer(Lecturer lecturer)
     {
-        if(!lecturers.Contains(lecturer) && lecturer.CanTeachCourse(this)) 
+        // Check: Already assigned?
+        if (Lecturers.Contains(lecturer))
         {
-            lecturers.Add(lecturer);
-            lecturer.AssignCourse(this);
+            return;
+        }
+
+        // Check if lecturer can teach more courses
+        if (lecturer.CanTeachMore())
+        {
+            Lecturers.Add(lecturer);           // Add lecturer to course
+            lecturer.AssignCourse(this);       // Add course to lecturer
         }
     }
 
+    // ========== Financial calculation methods ==========
+    // Calculate income: money from all students
     public double CalculateIncome()
     {
         double total = 0;
-        foreach(var student in Students)
+        foreach (var s in Students)
         {
-            total += student.PricePerPoint * Points;
+            total = total + s.PricePerPoint * Points;
         }
         return total;
     }
 
+    // Calculate cost: room cost + all lecturer costs
     public double CalculateCost()
     {
         double total = RoomCost;
-        foreach(var lecturer in lecturers)
+        foreach (var l in Lecturers)
         {
-            total += lecturer.costToTeach;
+            total = total + l.CostToTeach;
         }
         return total;
     }
+
+    // Calculate profit: income - cost
     public double CalculateProfit()
     {
         return CalculateIncome() - CalculateCost();

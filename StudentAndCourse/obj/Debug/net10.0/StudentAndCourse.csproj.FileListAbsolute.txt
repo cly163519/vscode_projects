@@ -12,3 +12,4 @@ C:\dev\StudentAndCourse\obj\Debug\net10.0\refint\StudentAndCourse.dll
 C:\dev\StudentAndCourse\obj\Debug\net10.0\StudentAndCourse.pdb
 C:\dev\StudentAndCourse\obj\Debug\net10.0\StudentAndCourse.genruntimeconfig.cache
 C:\dev\StudentAndCourse\obj\Debug\net10.0\ref\StudentAndCourse.dll
+C:\dev\StudentAndCourse\obj\Debug\net10.0\StudentAndCourse.sourcelink.json

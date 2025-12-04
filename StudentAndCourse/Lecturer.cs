@@ -1,46 +1,39 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
+
 public class Lecturer
 {
-    public string Name {get; set;}
-    public double costToTeach;
-    public IList<Course> assignedCourses { get; set; }
+    // ========== Constants ==========
+    private const int MAX_COURSES = 3;  // Maximum 3 courses allowed
 
-    public static int MAX_COURSES = 3;
+    // ========== Properties ==========
+    public string Name { get; private set; }                  // Lecturer name
+    public double CostToTeach { get; private set; }           // Cost to teach
+    public IList<Course> Courses { get; private set; }        // List of courses this lecturer teaches
+
+    // ========== Constructor ==========
     public Lecturer(string name, double costToTeach)
     {
         Name = name;
-        this.costToTeach = costToTeach;
-        assignedCourses = new List<Course>();
+        CostToTeach = costToTeach;
+        Courses = new List<Course>();
     }
 
-    public String getName()
+    // ========== Methods ==========
+    // Check if can teach more courses
+    public bool CanTeachMore()
     {
-        return Name;
+        return Courses.Count < MAX_COURSES;
     }
 
-    public double getCostToTeach()
-    {
-        return costToTeach;
-    }
-
-    public bool CanTeachCourse(Course course)
-    {
-        if(assignedCourses.Count >= MAX_COURSES)
-        {
-            return false;
-        }
-        return true;
-    }
-
+    // Assign a course to this lecturer
     public void AssignCourse(Course course)
     {
-        if(!assignedCourses.Contains(course) && CanTeachCourse(course))
+        // Check if already teaching this course
+        if (Courses.Contains(course))
         {
-            assignedCourses.Add(course);
+            return;  // Already teaching, no need to add
         }
+        Courses.Add(course);
     }
-
-
 }
